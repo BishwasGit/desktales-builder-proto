@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Pad Selection</title>
+    <!-- Bootstrap CSS CDN (you can replace with local CSS file if preferred) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .mousepad-container {
+            max-width: 600px;
+            height: 600px;
+            max-height: 600px;
+            position: relative;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        #imageCanvas {
+            border-radius: 15px; /* Apply same border radius as container */
+            max-width: 100%;
+            max-height: 100%;
+        }
+        canvas {
+            border: none; /* Remove default canvas border */
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px; /* Inherit border radius from container */
+            padding: 10px;
+        }
+        .dropzone {
+            width: 100%;
+            height: 100px; /* Adjust height of drop zone as needed */
+            border: 2px dashed #ccc;
+            text-align: center;
+            line-height: 100px; /* Center text vertically */
+            font-size: 20px;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .highlight {
+            background-color: rgba(0, 0, 0, 0.1); /* Light gray background when highlighted */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-6">
+                <div class="mousepad-container" id="mousepadContainer">
+                    <canvas id="imageCanvas"></canvas>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-center mb-3">
+                    <h4>Select Mouse Pad Size:</h4>
+                </div>
+                <div class="btn-group btn-group-toggle col-12 my-3" data-toggle="buttons">
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option1" onchange="setMousePadSize(90, 40)"> 90 x 40 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option2" onchange="setMousePadSize(90, 30)"> 90 x 30 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option3" onchange="setMousePadSize(80, 40)"> 80 x 40 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option4" onchange="setMousePadSize(80, 30)"> 80 x 30 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option5" onchange="setMousePadSize(70, 40)"> 70 x 40 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option6" onchange="setMousePadSize(70, 30)"> 70 x 30 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option7" onchange="setMousePadSize(60, 40)"> 60 x 40 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option8" onchange="setMousePadSize(60, 30)"> 60 x 30 cm
+                    </label>
+                    <!-- Additional sizes -->
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option9" onchange="setMousePadSize(50, 30)"> 50 x 30 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option10" onchange="setMousePadSize(40, 30)"> 40 x 30 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option11" onchange="setMousePadSize(35, 25)"> 35 x 25 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option12" onchange="setMousePadSize(30, 30)"> 30 x 30 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option13" onchange="setMousePadSize(30, 25)"> 30 x 25 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option14" onchange="setMousePadSize(30, 20)"> 30 x 20 cm
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="options" id="option15" onchange="setMousePadSize(25, 25)"> 25 x 25 cm
+                    </label>
+                </div>
+                <div class="col-12">
+                    <div class="dropzone" id="dropzone">Drag & Drop Image Here</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (jQuery and Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="app.js"></script> <!-- Your custom JavaScript -->
+    
+    <script>
+        // Function to set the size of the mouse pad canvas
+        function setMousePadSize(width, height) {
+            const canvas = document.getElementById('imageCanvas');
+            canvas.width = width * 10; // Convert cm to mm
+            canvas.height = height * 10; // Convert cm to mm
+            drawMousePad(); // Redraw the mouse pad with updated dimensions
+        }
+
+        // Function to draw the mouse pad on the canvas
+        function drawMousePad() {
+            const canvas = document.getElementById('imageCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw mouse pad background
+            ctx.fillStyle = '#f0f0f0'; // Background color
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw border
+            ctx.strokeStyle = '#000'; // Border color
+            ctx.lineWidth = 3; // Border width
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+            // Optionally add text or graphics for the mouse pad design
+            // ctx.fillStyle = '#000';
+            // ctx.font = '20px Arial';
+            // ctx.fillText('Your custom design here', 20, 40);
+        }
+    </script>
+</body>
+</html>
