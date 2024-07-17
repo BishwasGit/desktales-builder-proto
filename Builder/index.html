@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Builder</title>
+    <style>
+        #container {
+            border: 1px solid #ccc;
+            width: 500px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px; /* Rounded corners */
+            background-color: #f0f0f0; /* Light grey background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        
+        .resizable {
+            position: absolute;
+            max-width: 100%;
+            max-height: 100%;
+            resize: both;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <input type="number" id="containerWidth" placeholder="Width (px)" />
+        <input type="number" id="containerHeight" placeholder="Height (px)" />
+        <button onclick="setContainerDimensions()">Set Dimensions</button>
+        <input type="file" id="imageUpload" accept="image/*" multiple />
+        <input type="color" id="colorPicker" />
+    </div>
+    <div id="container"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
+    <script src="app.js">
+    </script>
+</body>
+</html>
